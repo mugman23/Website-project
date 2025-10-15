@@ -1,11 +1,11 @@
 // src/components/NoteMarker.jsx
 import React from "react";
 
-export default function NoteMarker({ x, y, note, inScale, isChordTone }) {
+export default function NoteMarker({ x, y, note, inScale, isTriadChordTone }) {
   let fill = "white";
 
   if (inScale) fill = "orange";         // normal scale notes
-  if (isChordTone) fill = "red";        // chord tones override
+  if (isTriadChordTone) fill = "red";        // triad chord tones override
 
   return (
     <g>

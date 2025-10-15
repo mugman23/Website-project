@@ -1,6 +1,7 @@
 // src/components/Fretboard.jsx
 import React, { useState } from "react";
 import TuningPeg from "./TuningPeg";
+import TuningSelector from "./TuningSelector";
 import NoteMarker from "./NoteMarker";
 import { scales } from "../data/scales";
 
@@ -11,20 +12,15 @@ export default function Fretboard({ strings = 6, frets = 20 }) {
   const width = frets * fretSpacing;
   const height = (strings - 1) * stringSpacing;
 
-  // Scales
-  const scalesNames = ["Major (Ionian)", "Natural Minor (Aeolion)", "Dorian", "Phrygian", "Lydian", "Mixolydian", "Locrian"];
-
-  // Standard tuning (low to high)
-  const tuning = ["E", "B", "G", "D", "A", "E"];
-
   // Chromatic scale (sharps only for now)
   const chromatic = [
     "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B",
   ];
 
+  const [tuning, setTuning] = useState(["E", "B", "G", "D", "A", "E"]);
   const [root, setRoot] = useState("A");
   const [activeScale, setActiveScale] = useState(null);
-  const [highlightChordTones, setHighlightChordTones] = useState(false);
+  const [highlightTriadChordTones, setHighlightTriadChordTones] = useState(false);
 
   const activeScaleData = activeScale ? scales[activeScale] : null;
 
@@ -37,25 +33,25 @@ export default function Fretboard({ strings = 6, frets = 20 }) {
       {activeScale && (
         <div style={{ position: "absolute", right: 0, top: 0, zIndex: 20 }}>
           <button
-            onClick={() => setHighlightChordTones(!highlightChordTones)}
+            onClick={() => setHighlightTriadChordTones(!highlightTriadChordTones)}
             style={{
               padding: "6px 12px",
               fontSize: "14px",
-              background: highlightChordTones ? "red" : "white",
+              background: highlightTriadChordTones ? "red" : "white",
               border: "1px solid black",
               borderRadius: "4px",
               cursor: "pointer",
             }}
           >
-            Highlight chord tones
+            Highlight triad tones
           </button>
         </div>
       )}
 
       <svg
-        viewBox={`-50 -20 ${width + 70} ${height + 40}`}
+        viewBox={`-50 -20 ${width + 70} ${height + 60}`}
         preserveAspectRatio="none"
-        style={{ width: "100%", height: "200px", display: "block" }}
+        style={{ width: "100%", height: "220px", display: "block", marginBottom: "20px" }}
       >
         {/* Strings */}
         {Array.from({ length: strings }, (_, i) => (
@@ -88,6 +84,21 @@ export default function Fretboard({ strings = 6, frets = 20 }) {
           <TuningPeg key={i} note={note} y={i * stringSpacing} />
         ))}
 
+        {/* Fret numbers */}
+        {Array.from({ length: frets + 1 }, (_, i) => (
+          <text
+            key={`fret-number-${i}`}
+            x={i * fretSpacing - 28}
+            y={height + 25}
+            fontSize="12"
+            fontFamily="sans-serif"
+            fill="black"
+            fontWeight={"bold"}
+          >
+            {i}
+          </text>
+        ))}
+
         {/* Notes */}
         {activeScaleData &&
           tuning.map((openNote, stringIndex) =>
@@ -97,8 +108,9 @@ export default function Fretboard({ strings = 6, frets = 20 }) {
               const interval = (noteIndex - rootIndex + 12) % 12;
 
               const inScale = activeScaleData.notes.includes(interval);
-              const isChordTone =
-                highlightChordTones && activeScaleData.chordTones.includes(interval);
+              //Checks if the note is a triad tone
+              const isTriadChordTone =
+                highlightTriadChordTones && activeScaleData.triadchordTones.includes(interval);
 
               if (!inScale) return null;
 
@@ -111,7 +123,7 @@ export default function Fretboard({ strings = 6, frets = 20 }) {
                   y={stringIndex * stringSpacing}
                   note={note}
                   inScale={inScale}
-                  isChordTone={isChordTone}
+                  isTriadChordTone={isTriadChordTone}
                 />
               );
             })
@@ -119,7 +131,9 @@ export default function Fretboard({ strings = 6, frets = 20 }) {
       </svg>
 
       {/* Bottom controls */}
-      <div style={{ display: "flex", justifyContent: "space-evenly", alignItems: "center", marginTop: "10px" }}>
+      <div style={{ display: "flex", justifyContent: "space-evenly", alignItems: "center", marginTop: "30px" }}>
+        {/* Tuning selector */}
+        <TuningSelector tuning={tuning} setTuning={setTuning} />
         {/* Root note select */}
         <select
           value={root}
@@ -141,7 +155,7 @@ export default function Fretboard({ strings = 6, frets = 20 }) {
             onClick={() => {
           if (activeScale === key) {
             setActiveScale(null);
-            setHighlightChordTones(false);
+            setHighlightTriadChordTones(false);
           } else {
             setActiveScale(key);
           }

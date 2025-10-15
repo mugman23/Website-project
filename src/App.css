@@ -48,3 +48,18 @@ svg {
   min-height: max-content;
   min-width: 700px; /* or whatever */
 }
+
+.tuning-dialog {
+  position: absolute;
+  top: 10%;
+  left: 30%;
+  transform: translateX(-50%);
+  background: white;
+  border: 2px solid black;
+  border-radius: 8px;
+  padding: 12px 16px;
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  z-index: 999;
+}
