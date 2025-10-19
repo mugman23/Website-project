@@ -1,5 +1,6 @@
 // src/components/Fretboard.jsx
 import React, { useState } from "react";
+import Metronome from "./Metronome";
 import TuningPeg from "./TuningPeg";
 import TuningSelector from "./TuningSelector";
 import NoteMarker from "./NoteMarker";
@@ -28,7 +29,10 @@ export default function Fretboard({ strings = 6, frets = 20 }) {
   console.log();
 
   return (
+
     <div className="fretboard-container" style={{ position: "relative", paddingTop: "50px" }}>
+      {/* Metronome */}
+      <Metronome />
       {/* Chord-tone button (top-right, only visible if scale active) */}
       {activeScale && (
         <div style={{ position: "absolute", right: 0, top: 0, zIndex: 20 }}>
