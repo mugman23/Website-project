@@ -7,7 +7,7 @@ function Header({ setActivePage }) {
         <div className="logo">🎸 Guitar Tools</div>
         <ul className="nav-links">
           <button onClick={() => setActivePage("fretboard")}>Fretboard</button>
-          <button>Metronome</button>
+          <button onClick={() => setActivePage("tuner")}>Tuner</button>
           <button>Trainer</button>
           <button >About</button>
         </ul>

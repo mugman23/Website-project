@@ -63,3 +63,67 @@ svg {
   justify-content: center;
   z-index: 999;
 }
+
+/* Tuner page */
+.tuner-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 50px;
+  color: #222;
+}
+
+.tuner-display {
+  margin-top: 40px;
+  width: 260px;
+  height: 120px;
+  border: 2px solid #333;
+  border-radius: 12px;
+  background: linear-gradient(180deg, #fafafa, #eaeaea);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.tuner-needle {
+  position: absolute;
+  top: 10px;
+  width: 2px;
+  height: 40px;
+  background: red;
+  transform: rotate(0deg);
+  transform-origin: bottom center;
+  transition: transform 0.2s ease;
+}
+
+.tuner-info {
+  text-align: center;
+}
+
+.tuner-info h2 {
+  font-size: 2rem;
+  margin: 0;
+}
+
+.tuner-info p {
+  margin: 0;
+  font-size: 1rem;
+  color: #555;
+}
+
+.tuner-button {
+  margin-top: 20px;
+  padding: 8px 16px;
+  font-size: 16px;
+  border: 1px solid #333;
+  border-radius: 8px;
+  background: white;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.tuner-button:hover {
+  background: #eee;
+}
